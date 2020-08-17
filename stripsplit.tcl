@@ -1,4 +1,4 @@
-# stripsplit.tcl (c) 2019 cameron f abrams cfa22@drexel.edu
+# stripsplit.tcl (c) 2019,2020 cameron f abrams cfa22@drexel.edu
 #
 # This VMD script takes as input the full simulation PSF/PDB/COOR input
 # files and all output stage-specific DCD's to generate (for one replica designated
