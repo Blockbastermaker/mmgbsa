@@ -1,0 +1,50 @@
+set SYS %SYS%
+set REP %REP%
+paraTypeCharmm on 
+set CHARMM_BASEDIR /home/cfa/charmm
+parameters /home/cfa/research/psfgen/charmm/bnm_edited.str
+parameters ${CHARMM_BASEDIR}/toppar/par_all36_cgenff.prm
+parameters ${CHARMM_BASEDIR}/toppar/stream/carb/toppar_all36_carb_glycolipid.str
+parameters ${CHARMM_BASEDIR}/toppar/stream/carb/toppar_all36_carb_glycopeptide.str
+parameters ${CHARMM_BASEDIR}/toppar/par_all36_lipid.prm
+parameters ${CHARMM_BASEDIR}/toppar/par_all36_carb.prm
+parameters ${CHARMM_BASEDIR}/toppar/par_all36_carb.prm
+parameters ${CHARMM_BASEDIR}/toppar/par_all36m_prot.prm
+parameters ${CHARMM_BASEDIR}/toppar/toppar_water_ions_namd.str
+parameters ${CHARMM_BASEDIR}/toppar/par_all36_na.prm
+parameters ${CHARMM_BASEDIR}/toppar/toppar_water_ions_namd_nonbfixes.str
+
+structure   ${SYS}.psf; # PSF
+coordinates ${SYS}.pdb; # PDB
+
+outputname gb_bnm 
+
+numsteps 0 
+
+GBIS on 
+solventDielectric 74.69 
+ionConcentration 0.3 
+alphaCutoff 14
+switching on 
+switchdist 9. 
+cutoff 10
+pairlistdist 11.5
+
+sasa on
+surfaceTension 0.0072 
+timestep 1 
+nonbondedFreq 1
+fullElectFrequency 1
+exclude scaled1-4 
+temperature 310
+set ts 0
+
+coorfile open dcd ${SYS}-rep${REP}-formmgbsa.dcd  
+
+while { ![coorfile read] } { 
+    firstTimestep $ts 
+    run 0
+    incr ts 1
+} 
+coorfile close 
+
